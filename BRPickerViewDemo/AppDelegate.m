@@ -14,9 +14,6 @@
 @end
 
 @implementation AppDelegate
-{
-    UINavigationController *nav;
-}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -28,14 +25,8 @@
 }
 
 - (void)setupRootViewController {
-    
-    UIViewController *vc = [[UIViewController alloc]init];
-    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(10, 100, 100, 100)];
-    [btn addTarget:self action:@selector(xxx) forControlEvents:UIControlEventTouchUpInside];
-    btn.backgroundColor =[UIColor redColor];
-    [vc.view addSubview:btn];
-    
-    nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    TestViewController *testVC = [[TestViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:testVC];
     // 设置状态栏前景色为白色
     nav.navigationBar.barStyle = UIBarStyleBlack;
     // 设置navigationBar背景颜色
@@ -46,12 +37,6 @@
     [nav.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.window.rootViewController = nav;
 }
-
-- (void)xxx {
-    TestViewController *testVC = [[TestViewController alloc]init];
-    [nav pushViewController:testVC animated:YES];
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
