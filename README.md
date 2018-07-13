@@ -32,7 +32,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
     SZTextFieldCellItem *item2 = [SZTextFieldCellItem rowItemWithTitle: @"姓名" placeholder: @"请输入姓名" isNeedStar:NO editingBlock:^(NSString *str) {
          weakSelf.curTextField[1].text  = str;
 //        或者
-         self.infoModel.nameStr = str;
+         weakSelf.infoModel.nameStr = str;
     }];
 
     SZTextFieldSelItem *item3 = [SZTextFieldSelItem rowItemWithTitle:@"性别" placeholder:@"请选择" tapAcitonBlock:^{
