@@ -46,7 +46,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
         NSDate *minDate = [NSDate br_setYear:1990 month:3 day:12];
         NSDate *maxDate = [NSDate date];
         [BRDatePickerView showDatePickerWithTitle:@"出生日期" dateType:BRDatePickerModeYMD defaultSelValue:weakSelf.curTextField[3].text minDate:minDate maxDate:maxDate isAutoSelect:YES themeColor:nil resultBlock:^(NSString *selectValue) {
-            weakSelf.curTextField[3].text = self.infoModel.birthdayStr = selectValue;
+            weakSelf.curTextField[3].text = weakSelf.infoModel.birthdayStr = selectValue;
         } cancelBlock:^{
             NSLog(@"点击了背景或取消按钮");
         }];
@@ -56,7 +56,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
         NSDate *minDate = [NSDate br_setHour:8 minute:10];
         NSDate *maxDate = [NSDate br_setHour:20 minute:35];
         [BRDatePickerView showDatePickerWithTitle:@"出生时刻" dateType:BRDatePickerModeTime defaultSelValue:weakSelf.curTextField[4].text minDate:minDate maxDate:maxDate isAutoSelect:YES themeColor:[UIColor orangeColor] resultBlock:^(NSString *selectValue) {
-            weakSelf.curTextField[4].text = self.infoModel.birthtimeStr = selectValue;
+            weakSelf.curTextField[4].text = weakSelf.infoModel.birthtimeStr = selectValue;
         }];
     }];
     
@@ -66,7 +66,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
         NSArray *dataSource = [weakSelf getAddressDataSource];  //从外部传入地区数据源
 //        NSArray *dataSource = nil; // dataSource 为空时，就默认使用框架内部提供的数据源（即 BRCity.plist）
         [BRAddressPickerView showAddressPickerWithShowType:BRAddressPickerModeArea dataSource:dataSource defaultSelected:defaultSelArr isAutoSelect:YES themeColor:nil resultBlock:^(BRProvinceModel *province, BRCityModel *city, BRAreaModel *area) {
-            weakSelf.curTextField[5].text = self.infoModel.addressStr = [NSString stringWithFormat:@"%@ %@ %@", province.name, city.name, area.name];
+            weakSelf.curTextField[5].text = weakSelf.infoModel.addressStr = [NSString stringWithFormat:@"%@ %@ %@", province.name, city.name, area.name];
             NSLog(@"省[%@]：%@，%@", @(province.index), province.code, province.name);
             NSLog(@"市[%@]：%@，%@", @(city.index), city.code, city.name);
             NSLog(@"区[%@]：%@，%@", @(area.index), area.code, area.name);
@@ -80,7 +80,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
 //        NSArray *dataSource = @[@"大专以下", @"大专", @"本科", @"硕士", @"博士", @"博士后"];
         NSString *dataSource = @"testData1.plist"; // 可以将数据源（上面的数组）放到plist文件中
         [BRStringPickerView showStringPickerWithTitle:@"学历" dataSource:dataSource defaultSelValue:weakSelf.curTextField[6].text isAutoSelect:YES themeColor:nil resultBlock:^(id selectValue) {
-            weakSelf.curTextField[6].text = self.infoModel.educationStr = selectValue;
+            weakSelf.curTextField[6].text = weakSelf.infoModel.educationStr = selectValue;
         } cancelBlock:^{
             NSLog(@"点击了背景视图或取消按钮");
         }];
@@ -91,7 +91,7 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
                     // NSString *dataSource = @"testData3.plist"; // 可以将数据源（上面的数组）放到plist文件中
                     NSArray *defaultSelArr = [weakSelf.curTextField[7].text componentsSeparatedByString:@"，"];
                     [BRStringPickerView showStringPickerWithTitle:@"自定义多列字符串" dataSource:dataSource defaultSelValue:defaultSelArr isAutoSelect:YES themeColor:BR_RGB_HEX(0xff7998, 1.0f) resultBlock:^(id selectValue) {
-                        weakSelf.curTextField[7].text = self.infoModel.otherStr = [NSString stringWithFormat:@"%@，%@", selectValue[0], selectValue[1]];
+                        weakSelf.curTextField[7].text = weakSelf.infoModel.otherStr = [NSString stringWithFormat:@"%@，%@", selectValue[0], selectValue[1]];
                     } cancelBlock:^{
                         NSLog(@"点击了背景视图或取消按钮");
                     }];
@@ -123,6 +123,6 @@ BRPickerView原作者给出的demo，即textField列表，其实是APP中常用�
 }
 ```
 
-#后话：
+# 6. 后话：
 如果你看过原作者的demo，你肯定注意到了我的使用方式要简洁方便很多，其实就是把一些逻辑封装到了内部，这样在使用的时候是不是方便不少呢？感谢原作者给我们提供了这么好用的选择器组件。站在巨人的肩膀上，做一个代码的搬运工，也挺好！
 
