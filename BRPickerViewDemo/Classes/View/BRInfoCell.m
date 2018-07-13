@@ -11,9 +11,7 @@
 #import "BRTextField.h"
 #import "SZTextFieldCellItem.h"
 #import "SZTextFieldSelItem.h"
-#import "BRStringPickerView.h"
-#import "BRAddressPickerView.h"
-#import "BRDatePickerView.h"
+
 
 #define kLeftMargin 20
 #define kRowHeight 50
@@ -65,8 +63,7 @@
        self.isNext = YES;
         
      [self.textField  addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context: nil];
-        
-        self.textField.tapAcitonBlock = [(SZTextFieldSelItem *)rowItem tapAcitonBlock];
+     self.textField.tapAcitonBlock = [(SZTextFieldSelItem *)rowItem tapAcitonBlock];
     }
 }
 
@@ -182,8 +179,8 @@
     }
 }
 
--(void)dealloc{
-    [self.textField removeObserver:self forKeyPath:@"text" context:nil];
+-(void)dealloc {
+   [self.textField removeObserver:self forKeyPath:@"text" context:nil];
 }
 
 

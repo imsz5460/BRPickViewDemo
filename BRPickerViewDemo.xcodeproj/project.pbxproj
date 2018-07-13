@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B512222120F8A280006C7DEA /* NSObject+SZKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = B512222020F8A280006C7DEA /* NSObject+SZKVO.m */; };
 		B537CFAA20F6EB9F00971457 /* SZTextFieldSelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B537CFA820F6EB9F00971457 /* SZTextFieldSelItem.m */; };
 		B53F2E0720F5DEEC00A50C86 /* BRTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B53F2E0520F5DEEB00A50C86 /* BRTextField.m */; };
 		B53F2E0D20F5DFF600A50C86 /* SZTextFieldCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B53F2E0920F5DFF600A50C86 /* SZTextFieldCellItem.m */; };
@@ -34,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B512221F20F8A280006C7DEA /* NSObject+SZKVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+SZKVO.h"; sourceTree = "<group>"; };
+		B512222020F8A280006C7DEA /* NSObject+SZKVO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SZKVO.m"; sourceTree = "<group>"; };
 		B537CFA020F6E4ED00971457 /* BRPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPickerView.h; sourceTree = "<group>"; };
 		B537CFA420F6EA7800971457 /* BRPickerViewMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPickerViewMacro.h; sourceTree = "<group>"; };
 		B537CFA820F6EB9F00971457 /* SZTextFieldSelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextFieldSelItem.m; sourceTree = "<group>"; };
@@ -88,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B512222220F8A5B8006C7DEA /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				B512221F20F8A280006C7DEA /* NSObject+SZKVO.h */,
+				B512222020F8A280006C7DEA /* NSObject+SZKVO.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		C5655B9C208474E600331751 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +226,7 @@
 				C5655B9C208474E600331751 /* Controller */,
 				C5655B9D2084750F00331751 /* View */,
 				C5655B9E2084751D00331751 /* Model */,
+				B512222220F8A5B8006C7DEA /* Category */,
 				C5EB52D92019B75C00FECAD5 /* BRCity.json */,
 				C5EB52D32018D38100FECAD5 /* testData1.plist */,
 				C5EB52D52018D39900FECAD5 /* testData2.plist */,
@@ -313,6 +326,7 @@
 			files = (
 				C5A158F21FBD897A00B3B3BA /* BRBaseView.m in Sources */,
 				C5ACE4DE1F3D58BD0069978B /* AppDelegate.m in Sources */,
+				B512222120F8A280006C7DEA /* NSObject+SZKVO.m in Sources */,
 				C5ACE4DB1F3D58BD0069978B /* main.m in Sources */,
 				C5ACE50B1F3D7D890069978B /* BRDatePickerView.m in Sources */,
 				C5655BA82084B3B000331751 /* BRInfoModel.m in Sources */,
