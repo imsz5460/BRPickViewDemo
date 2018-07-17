@@ -76,7 +76,9 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+//        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+        //使用UITableViewController可以自动防止键盘遮挡输入文字
+        _tableView = [[UITableViewController alloc] initWithStyle: UITableViewStylePlain].tableView;
         _tableView.backgroundColor = [UIColor whiteColor];
         // 设置子视图的大小随着父视图变化
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -179,10 +181,8 @@
 
 //返回每一组当中每一行的内容
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     BRInfoCell *cell = [BRInfoCell cellWithTable:tableView];
     cell.textField.delegate = self;
-    
     self.curTextField[indexPath.row] = cell.textField;
     //取出当前组的每一个行模型
     SZTextFieldCellItem *rowItem = self.itemArray[indexPath.row];
@@ -191,6 +191,10 @@
     //给Cell进行赋值.
     cell.rowItem = rowItem;
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
 }
 
 #pragma mark -- 懒加载tempArr 获取每一行cell对象，非必需实现的方法。
@@ -214,9 +218,6 @@
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
-}
 
 #pragma mark - 获取地区数据源
 - (NSArray *)getAddressDataSource {
@@ -234,6 +235,12 @@
 ////    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 ////}
 
+
+//设置return键位退出
+-(BOOL) textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
 
 - (BRInfoModel *)infoModel {
     if (!_infoModel) {
