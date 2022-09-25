@@ -7,6 +7,8 @@
 //
 
 #import "BRTextField.h"
+#import "SZResultModel.h"
+#import "SZTextFieldSelItem.h"
 
 @interface BRTextField ()
 @property (nonatomic, strong) UIView *tapView;
@@ -52,7 +54,7 @@
     [keyWindow endEditing:YES];
     NSLog(@"点击了textField，执行点击回调");
     if (self.tapAcitonBlock) {
-        self.tapAcitonBlock();
+        self.tapAcitonBlock(self, self.resultM);
     }
 }
 
@@ -63,6 +65,12 @@
     }
 }
 
+- (void)setText:(NSString *)text {
+    [super setText:text];
+    if ([_rowItem isMemberOfClass:[SZTextFieldSelItem class]]) {
+        ((SZTextFieldSelItem*)_rowItem).str = text;
+    }
+}
 
 
 @end

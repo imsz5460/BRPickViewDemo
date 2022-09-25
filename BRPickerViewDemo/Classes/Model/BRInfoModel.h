@@ -26,4 +26,7 @@
 /** 其它 */
 @property (nonatomic, copy) NSString *otherStr;
 
+
+
+
 @end

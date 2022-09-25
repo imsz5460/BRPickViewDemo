@@ -6,13 +6,18 @@
 //  Copyright © 2018年 shizhi. All rights reserved.
 //
 #import "SZTextFieldCellItem.h"
+#import "BRResultModel.h"
 
-typedef void(^BRTapAcitonBlock)();
+@class BRTextField;
+
+typedef void(^BRTapAcitonBlock)(BRTextField *textF, SZResultModel *resultM);
 
 @interface SZTextFieldSelItem : SZTextFieldCellItem
 
 /** textField 的点击回调 */
 @property (nonatomic, copy) BRTapAcitonBlock tapAcitonBlock;
+
+@property (nonatomic, strong) SZResultModel *resultM;
 
 
 /**

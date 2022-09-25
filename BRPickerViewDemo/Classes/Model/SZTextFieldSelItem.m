@@ -7,6 +7,7 @@
 //
 
 #import "SZTextFieldSelItem.h"
+#import "SZResultModel.h"
 
 @implementation SZTextFieldSelItem
 
@@ -15,6 +16,7 @@
     item.title = title;
     item.placeholder = placeholder;
     item.tapAcitonBlock = tapAcitonBlock;
+    item.resultM = [[SZResultModel alloc] init];
     return item;
 }
 
@@ -24,6 +26,7 @@
     item.placeholder = placeholder;
     item.tapAcitonBlock = tapAcitonBlock;
     item.isNeedStar = isNeedStar;
+    item.resultM = [[SZResultModel alloc] init];
     return item;
 }
 

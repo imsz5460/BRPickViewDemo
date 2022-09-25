@@ -6,7 +6,10 @@
 //  Copyright © 2018年 shizhi. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-typedef void(^EditingBlock)(NSString *str);
+@class BRTextField;
+@class SZResultModel;
+
+typedef void(^EditingBlock)(BRTextField *textF, NSString *str);
 
 
 @interface SZTextFieldCellItem : NSObject
@@ -20,6 +23,9 @@ typedef void(^EditingBlock)(NSString *str);
 
 /** textField 的点击回调 */
 @property (nonatomic, copy) EditingBlock editingText;
+
+@property (nonatomic, copy) NSString *str;
+
 
 
 + (instancetype)rowItemWithTitle:(NSString *)title placeholder:(NSString *)placeholder isNeedStar:(BOOL)isNeedStar;

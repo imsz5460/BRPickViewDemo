@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SZResultModel.h"
+#import "SZTextFieldCellItem.h"
 
-typedef void(^BRTapAcitonBlock)();
+@class BRTextField;
+
+typedef void(^BRTapAcitonBlock)(BRTextField *textF, SZResultModel *resultM);
 typedef void(^BREndEditBlock)(NSString *text);
 
 @interface BRTextField : UITextField<UITextFieldDelegate>
@@ -16,5 +20,11 @@ typedef void(^BREndEditBlock)(NSString *text);
 @property (nonatomic, copy) BRTapAcitonBlock tapAcitonBlock;
 /** textField 结束编辑的回调 */
 @property (nonatomic, copy) BREndEditBlock endEditBlock;
+
+@property (nonatomic, strong) SZResultModel *resultM;
+
+@property (nonatomic ,strong) SZTextFieldCellItem *rowItem;
+
+
 
 @end

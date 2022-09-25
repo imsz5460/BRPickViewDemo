@@ -2,105 +2,272 @@
 //  BRDatePickerView.h
 //  BRPickerViewDemo
 //
-//  Created by 任波 on 2017/8/11.
-//  Copyright © 2017年 91renb. All rights reserved.
+//  Created by renbo on 2017/8/11.
+//  Copyright © 2017 irenb. All rights reserved.
 //
 //  最新代码下载地址：https://github.com/91renb/BRPickerView
 
 #import "BRBaseView.h"
 #import "NSDate+BRPickerView.h"
 
-/// 弹出日期类型
+NS_ASSUME_NONNULL_BEGIN
+
+/// 日期选择器格式
 typedef NS_ENUM(NSInteger, BRDatePickerMode) {
-    // --- 以下4种是系统自带的样式 ---
-    // UIDatePickerModeTime
-    BRDatePickerModeTime,              // HH:mm
-    // UIDatePickerModeDate
-    BRDatePickerModeDate,              // yyyy-MM-dd
-    // UIDatePickerModeDateAndTime
-    BRDatePickerModeDateAndTime,       // yyyy-MM-dd HH:mm
-    // UIDatePickerModeCountDownTimer
-    BRDatePickerModeCountDownTimer,    // HH:mm
-    // --- 以下7种是自定义样式 ---
-    // 年月日时分
-    BRDatePickerModeYMDHM,      // yyyy-MM-dd HH:mm
-    // 月日时分
-    BRDatePickerModeMDHM,       // MM-dd HH:mm
-    // 年月日
-    BRDatePickerModeYMD,        // yyyy-MM-dd
-    // 年月
-    BRDatePickerModeYM,         // yyyy-MM
-    // 年
-    BRDatePickerModeY,          // yyyy
-    // 月日
-    BRDatePickerModeMD,         // MM-dd
-    // 时分
-    BRDatePickerModeHM          // HH:mm
+    // ----- 以下4种是系统样式（兼容国际化日期格式） -----
+    /** 【yyyy-MM-dd】UIDatePickerModeDate（美式日期：MM-dd-yyyy；英式日期：dd-MM-yyyy）*/
+    BRDatePickerModeDate,
+    /** 【yyyy-MM-dd HH:mm】 UIDatePickerModeDateAndTime */
+    BRDatePickerModeDateAndTime,
+    /** 【HH:mm】UIDatePickerModeTime */
+    BRDatePickerModeTime,
+    /** 【HH:mm】UIDatePickerModeCountDownTimer */
+    BRDatePickerModeCountDownTimer,
+    
+    // ----- 以下14种是自定义样式 -----
+    /** 【yyyy-MM-dd HH:mm:ss】年月日时分秒 */
+    BRDatePickerModeYMDHMS,
+    /** 【yyyy-MM-dd HH:mm】年月日时分 */
+    BRDatePickerModeYMDHM,
+    /** 【yyyy-MM-dd HH】年月日时 */
+    BRDatePickerModeYMDH,
+    /** 【MM-dd HH:mm】月日时分 */
+    BRDatePickerModeMDHM,
+    /** 【yyyy-MM-dd】年月日（兼容国际化日期：dd-MM-yyyy）*/
+    BRDatePickerModeYMD,
+    /** 【yyyy-MM】年月（兼容国际化日期：MM-yyyy）*/
+    BRDatePickerModeYM,
+    /** 【yyyy】年 */
+    BRDatePickerModeY,
+    /** 【MM-dd】月日 */
+    BRDatePickerModeMD,
+    /** 【HH:mm:ss】时分秒 */
+    BRDatePickerModeHMS,
+    /** 【HH:mm】时分 */
+    BRDatePickerModeHM,
+    /** 【mm:ss】分秒 */
+    BRDatePickerModeMS,
+    /** 【yyyy-MM-ww】月周数 */
+    BRDatePickerModeYMW,
+    /** 【yyyy-ww】年周数 */
+    BRDatePickerModeYW,
+    /** 【yyyy-qq】季度 */
+    BRDatePickerModeYQ
 };
 
-typedef void(^BRDateResultBlock)(NSString *selectValue);
-typedef void(^BRDateCancelBlock)(void);
+/// 日期单位显示的位置
+typedef NS_ENUM(NSInteger, BRShowUnitType) {
+    /** 日期单位显示全部行（默认）*/
+    BRShowUnitTypeAll,
+    /** 日期单位仅显示中间行 */
+    BRShowUnitTypeOnlyCenter,
+    /** 日期单位不显示（隐藏日期单位）*/
+    BRShowUnitTypeNone
+};
+
+typedef void (^BRDateResultBlock)(NSDate * _Nullable selectDate, NSString * _Nullable selectValue);
+
+typedef void (^BRDateResultRangeBlock)(NSDate * _Nullable selectStartDate, NSDate * _Nullable selectEndDate, NSString * _Nullable selectValue);
 
 @interface BRDatePickerView : BRBaseView
 
 /**
- *  1.显示时间选择器
- *
- *  @param title            标题
- *  @param dateType         日期显示类型
- *  @param defaultSelValue  默认选中的时间（值为空/值格式错误时，默认就选中现在的时间）
- *  @param resultBlock      选择结果的回调
- *
- */
-+ (void)showDatePickerWithTitle:(NSString *)title
-                       dateType:(BRDatePickerMode)dateType
-                defaultSelValue:(NSString *)defaultSelValue
-                    resultBlock:(BRDateResultBlock)resultBlock;
+ //////////////////////////////////////////////////////////////////////////
+ ///
+ ///   【用法一】
+ ///    特点：灵活，扩展性强（推荐使用！）
+ ///
+ ////////////////////////////////////////////////////////////////////////*/
+
+/** 日期选择器显示类型 */
+@property (nonatomic, assign) BRDatePickerMode pickerMode;
+
+/** 设置选中的日期（推荐使用 selectDate） */
+@property (nullable, nonatomic, strong) NSDate *selectDate;
+@property (nullable, nonatomic, copy) NSString *selectValue;
+
+/** 最小日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）*/
+@property (nullable, nonatomic, strong) NSDate *minDate;
+/** 最大日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）*/
+@property (nullable, nonatomic, strong) NSDate *maxDate;
+
+/** 选择结果的回调 */
+@property (nullable, nonatomic, copy) BRDateResultBlock resultBlock;
+/** 选择结果范围的回调 */
+@property (nullable, nonatomic, copy) BRDateResultRangeBlock resultRangeBlock;
+
+/** 滚动选择时触发的回调 */
+@property (nullable, nonatomic, copy) BRDateResultBlock changeBlock;
+/** 滚动选择范围时触发的回调 */
+@property (nullable, nonatomic, copy) BRDateResultRangeBlock changeRangeBlock;
+
+/** 日期单位显示类型 */
+@property (nonatomic, assign) BRShowUnitType showUnitType;
+
+/** 是否显示【星期】，默认为 NO */
+@property (nonatomic, assign, getter=isShowWeek) BOOL showWeek;
+
+/** 是否显示【今天】，默认为 NO */
+@property (nonatomic, assign, getter=isShowToday) BOOL showToday;
+
+/** 是否添加【至今】，默认为 NO */
+@property (nonatomic, assign, getter=isAddToNow) BOOL addToNow;
+
+/** 首行添加【自定义字符串】，配合 selectValue 可设置默认选中 */
+@property (nullable, nonatomic, copy) NSString *firstRowContent;
+
+/** 末行添加【自定义字符串】，配合 selectValue 可设置默认选中 */
+@property (nullable, nonatomic, copy) NSString *lastRowContent;
+
+/** 最后一行，添加【自定义字符串】 */
+@property (nullable, nonatomic, copy) NSString *addCustomString DEPRECATED_MSG_ATTRIBUTE("Use 'lastRowContent' instead");
+
+/** 滚轮上日期数据排序是否降序，默认为 NO（升序）*/
+@property (nonatomic, assign, getter=isDescending) BOOL descending;
+
+/** 选择器上数字是否带有前导零，默认为 NO（如：无前导零:2020-1-1；有前导零:2020-01-01）*/
+@property (nonatomic, assign, getter=isNumberFullName) BOOL numberFullName;
+
+/** 设置分的时间间隔，默认为1（范围：1 ~ 30）*/
+@property (nonatomic, assign) NSInteger minuteInterval;
+
+/** 设置秒的时间间隔，默认为1（范围：1 ~ 30）*/
+@property (nonatomic, assign) NSInteger secondInterval;
+
+/** 设置倒计时的时长，默认为0（范围：0 ~ 24*60*60-1，单位为秒） for `BRDatePickerModeCountDownTimer`, ignored otherwise. */
+@property (nonatomic, assign) NSTimeInterval countDownDuration;
 
 /**
- *  2.显示时间选择器（支持 设置自动选择 和 自定义主题颜色）
- *
- *  @param title            标题
- *  @param dateType         日期显示类型
- *  @param defaultSelValue  默认选中的时间（值为空/值格式错误时，默认就选中现在的时间）
- *  @param minDate          最小时间，可为空（请使用 NSDate+BRPickerView 分类中和显示类型格式对应的方法创建 minDate）
- *  @param maxDate          最大时间，可为空（请使用 NSDate+BRPickerView 分类中和显示类型格式对应的方法创建 maxDate）
- *  @param isAutoSelect     是否自动选择，即选择完(滚动完)执行结果回调，传选择的结果值
- *  @param themeColor       自定义主题颜色
- *  @param resultBlock      选择结果的回调
- *
+ *  自定义月份数据源
+ *  如：@[@"1月", @"2月",..., @"12月"]、 @[@"一月", @"二月",..., @"十二月"]、 @[@"Jan", @"Feb",..., @"Dec"] 等
  */
-+ (void)showDatePickerWithTitle:(NSString *)title
-                       dateType:(BRDatePickerMode)dateType
-                defaultSelValue:(NSString *)defaultSelValue
-                        minDate:(NSDate *)minDate
-                        maxDate:(NSDate *)maxDate
-                   isAutoSelect:(BOOL)isAutoSelect
-                     themeColor:(UIColor *)themeColor
-                    resultBlock:(BRDateResultBlock)resultBlock;
+@property (nonatomic, copy) NSArray <NSString *> *monthNames;
 
 /**
- *  3.显示时间选择器（支持 设置自动选择、自定义主题颜色、取消选择的回调）
+ *  设置国际化日期(非中文环境下)月份是否显示简称，默认为 NO。for `BRDatePickerModeYMD` and `BRDatePickerModeYM`, ignored otherwise.
+ *  如：January 的简称为：Jan
+ */
+@property (nonatomic, assign, getter=isShortMonthName) BOOL shortMonthName;
+
+/**
+ *  自定义日期单位
+ *  字典格式：@{@"year": @"年", @"month": @"月", @"day": @"日", @"hour": @"时", @"minute": @"分", @"second": @"秒"}
+ */
+@property (nonatomic, copy) NSDictionary *customUnit;
+
+/** 显示上午和下午，默认为 NO. for `BRDatePickerModeYMDH`, ignored otherwise. */
+@property (nonatomic, assign, getter=isShowAMAndPM) BOOL showAMAndPM;
+
+/** 设置时区，默认为当前时区 */
+@property (nullable, nonatomic, copy) NSTimeZone *timeZone;
+
+/** default is [NSCalendar currentCalendar]. setting nil returns to default. for `UIDatePicker` */
+@property (nonatomic, copy) NSCalendar *calendar;
+
+/** 指定不允许选择的日期 */
+@property (nullable, nonatomic, copy) NSArray <NSDate *> *nonSelectableDates;
+
+/** 不允许选择日期的回调 */
+@property (nullable, nonatomic, copy) BRDateResultBlock nonSelectableBlock;
+
+/// 初始化日期选择器
+/// @param pickerMode  日期选择器显示类型
+- (instancetype)initWithPickerMode:(BRDatePickerMode)pickerMode;
+
+/// 弹出选择器视图
+- (void)show;
+
+/// 关闭选择器视图
+- (void)dismiss;
+
+
+
+
+//================================================= 华丽的分割线 =================================================
+
+
+
+
+/**
+ //////////////////////////////////////////////////////////////////////////
+ ///
+ ///   【用法二】：快捷使用，直接选择下面其中的一个方法进行使用
+ ///    特点：快捷，方便
+ ///
+ ////////////////////////////////////////////////////////////////////////*/
+
+/**
+ *  1.显示日期选择器
  *
- *  @param title            标题
- *  @param dateType         日期显示类型
- *  @param defaultSelValue  默认选中的时间（值为空/值格式错误时，默认就选中现在的时间）
- *  @param minDate          最小时间，可为空（请使用 NSDate+BRPickerView 分类中和显示类型格式对应的方法创建 minDate）
- *  @param maxDate          最大时间，可为空（请使用 NSDate+BRPickerView 分类中和显示类型格式对应的方法创建 maxDate）
- *  @param isAutoSelect     是否自动选择，即选择完(滚动完)执行结果回调，传选择的结果值
- *  @param themeColor       自定义主题颜色
+ *  @param mode             日期显示类型
+ *  @param title            选择器标题
+ *  @param selectValue      默认选中的日期（默认选中当前日期）
  *  @param resultBlock      选择结果的回调
- *  @param cancelBlock      取消选择的回调
  *
  */
-+ (void)showDatePickerWithTitle:(NSString *)title
-                       dateType:(BRDatePickerMode)dateType
-                defaultSelValue:(NSString *)defaultSelValue
-                        minDate:(NSDate *)minDate
-                        maxDate:(NSDate *)maxDate
-                   isAutoSelect:(BOOL)isAutoSelect
-                     themeColor:(UIColor *)themeColor
-                    resultBlock:(BRDateResultBlock)resultBlock
-                    cancelBlock:(BRDateCancelBlock)cancelBlock;
++ (void)showDatePickerWithMode:(BRDatePickerMode)mode
+                         title:(nullable NSString *)title
+                   selectValue:(nullable NSString *)selectValue
+                   resultBlock:(nullable BRDateResultBlock)resultBlock;
+
+/**
+ *  2.显示日期选择器
+ *
+ *  @param mode             日期显示类型
+ *  @param title            选择器标题
+ *  @param selectValue      默认选中的日期（默认选中当前日期）
+ *  @param isAutoSelect     是否自动选择，即滚动选择器后就执行结果回调，默认为 NO
+ *  @param resultBlock      选择结果的回调
+ *
+ */
++ (void)showDatePickerWithMode:(BRDatePickerMode)mode
+                         title:(nullable NSString *)title
+                   selectValue:(nullable NSString *)selectValue
+                  isAutoSelect:(BOOL)isAutoSelect
+                   resultBlock:(nullable BRDateResultBlock)resultBlock;
+
+/**
+ *  3.显示日期选择器
+ *
+ *  @param mode             日期显示类型
+ *  @param title            选择器标题
+ *  @param selectValue      默认选中的日期（默认选中当前日期）
+ *  @param minDate          最小日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）
+ *  @param maxDate          最大日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）
+ *  @param isAutoSelect     是否自动选择，即滚动选择器后就执行结果回调，默认为 NO
+ *  @param resultBlock      选择结果的回调
+ *
+ */
++ (void)showDatePickerWithMode:(BRDatePickerMode)mode
+                         title:(nullable NSString *)title
+                   selectValue:(nullable NSString *)selectValue
+                       minDate:(nullable NSDate *)minDate
+                       maxDate:(nullable NSDate *)maxDate
+                  isAutoSelect:(BOOL)isAutoSelect
+                   resultBlock:(nullable BRDateResultBlock)resultBlock;
+
+/**
+ * 3.显示日期选择器
+ *
+ * @param mode             日期显示类型
+ * @param title            选择器标题
+ * @param selectValue      默认选中的日期（默认选中当前日期）
+ * @param minDate          最小日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）
+ * @param maxDate          最大日期（可使用 NSDate+BRPickerView 分类中对应的方法进行创建）
+ * @param isAutoSelect     是否自动选择，即滚动选择器后就执行结果回调，默认为 NO
+ * @param resultBlock      选择结果的回调
+ * @param resultRangeBlock 范围选择结果的回调
+ *
+ */
++ (void)showDatePickerWithMode:(BRDatePickerMode)mode
+                         title:(nullable NSString *)title
+                   selectValue:(nullable NSString *)selectValue
+                       minDate:(nullable NSDate *)minDate
+                       maxDate:(nullable NSDate *)maxDate
+                  isAutoSelect:(BOOL)isAutoSelect
+                   resultBlock:(nullable BRDateResultBlock)resultBlock
+              resultRangeBlock:(nullable BRDateResultRangeBlock)resultRangeBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END
